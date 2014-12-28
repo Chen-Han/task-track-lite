@@ -1,0 +1,25 @@
+/* Empty. Add your own CSS if you like */
+/*======================================================*/
+/*TODO configure input so that it is the same as the text width*/
+input.task{
+    display:inline-block;
+    background-color:transparent;
+    border:0;
+    border-radius:3px;
+}
+input.task.task-name{
+    max-width: 30%;
+}
+input.task.task-for-duration{
+    max-width:50px;
+}
+input.task.task-from{
+    max-width:15%;
+}
+input.task.task-to{
+    max-width:15%;
+}
+input.task:focus{
+    border:1px solid blue;
+    background-color:lightgrey;
+}

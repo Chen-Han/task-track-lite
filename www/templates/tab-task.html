@@ -1,0 +1,51 @@
+<ion-view view-title="Tasks">
+    <ion-content>
+        <ion-list>
+            <ion-item class="item" ng-repeat="task in tasks track by $index" ng-click="showEdit()">
+                <h3>
+                    <!--Math.round(task.duration/60)-->
+                    <input class="task task-name" ng-model="task.name" type="text" placeholder="edit task name" stop-event ng-click="$event.stopPropagation();"auto-grow max-width="350"/>
+                    <select ng-model="timeType" ng-click="$event.stopPropagation();">
+                        <option ng-selected>for</option>
+                        <option>from</option>
+                    </select>
+                    <span ng-show="timeType==='for'" ng-click="$event.stopPropagation();">
+                        <input class="task task-for-duration"
+                               ng-model="task.duration"
+                               type="number"
+                               placeholder="edit time"
+                               stop-event
+                               max-width="350"/> mins.
+                    </span>
+                    <span ng-show="timeType==='from'" ng-click="$event.stopPropagation();">
+                        <input class="task task-from"
+                               ng-model="task.from"
+                               type="datetime"
+                               placeholder="edit time"
+                               stop-event auto-grow
+                               max-width="350"/>
+                        to
+                        <input class="task task-to"
+                               ng-model="task.to"
+                               type="datetime"
+                               placeholder="edit time"
+                               stop-event auto-grow
+                               max-width="350"/>
+                    </span>
+
+                </h3>
+            </ion-item>
+
+
+        </ion-list>
+        <div ng-show="isNewShown" class="list">
+            <label class="item item-input"><span>I did ...</span><input type="text" ng-model="newTask.name" placeholder="task name"></label>
+            <label class="item item-input"><span>for ...</span><input type="number" ng-model="newTask.duration" placeholder="task time"><span> mins</span></label>
+        </div>
+        <button class="button button-positive"
+                ng-click="isNewShown?createNewTask(newTask):showNewTask()" >
+            {{isNewShown?'Done':'New'}}
+        </button>
+
+    </ion-content>
+</ion-view>
