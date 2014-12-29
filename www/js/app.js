@@ -94,7 +94,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                     }
                 }
             })
-
+            .state('tab.moralBank', {
+                url: '/moralBank',
+                views: {
+                    'tab-moralBank': {
+                        templateUrl: 'templates/tab-moralBank.html',
+                        controller: 'MoralBankCtrl'
+                    }
+                }
+            })
             .state('tab.account', {
                 url: '/account',
                 views: {
