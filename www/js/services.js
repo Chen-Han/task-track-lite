@@ -136,10 +136,17 @@ angular.module('starter.services', [])
             transfer:function(taskId,type){
                 tasks[taskId].type=type;
                 saveData();
+                return tasks;
             },
             add:function (task){
                 tasks.push(task);
                 saveData();
+                return tasks;
+            },
+            remove: function (taskID) {
+                tasks.splice(taskID, 1);
+                saveData();
+                return tasks;
             }
         }
     });

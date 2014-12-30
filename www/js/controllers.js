@@ -21,19 +21,27 @@ angular.module('starter.controllers', [])
     .controller('FriendDetailCtrl', function ($scope, $stateParams, Friends) {
         $scope.friend = Friends.get($stateParams.friendId);
     })
-    .controller('TaskCtrl',function($scope,$stateParams,TaskService){
+    .controller('TaskCtrl', function ($scope, $stateParams, TaskService, $ionicPopup) {
         //initialize tasks from service
-        $scope.tasks=TaskService.all();
-        $scope.newTask={id:$scope.tasks.length,name:"",type:0,duration:0};
+        function initializeTasks() {
+            $scope.tasks = TaskService.all();
+            $scope.newTask = {id: $scope.tasks.length, name: "", type: 0, duration: 0};
+        }
+
+        initializeTasks();
         //time record type
         $scope.timeType='for';
         $scope.newTaskTimeType='for';
+
+        //the newTask is reinitialized
         function clearNewTask(){
+            initializeTasks();
             $scope.tasks=TaskService.all(); //update $scope task from Task service
             $scope.newTask={id:$scope.tasks.length,name:"",type:0,duration:0,from:'',to:''};
             $scope.isNewShown=false;
         }
-        //show the new task bar
+
+        //whether or not to show the new task bar
         $scope.isNewShown=false;
         $scope.showNewTask=function(){
             $scope.isNewShown=true;
@@ -41,6 +49,7 @@ angular.module('starter.controllers', [])
         $scope.hideNewTask=function(){
             $scope.isNewShown=false;
         };
+
         $scope.createNewTask=function(newTask){
             console.log("create New Task");
             console.log(newTask);
@@ -61,6 +70,29 @@ angular.module('starter.controllers', [])
             var a =moment(time1);
             var b =moment(time2);
             b.diff(a,'minutes');
+        };
+
+        //delete task confirm
+        $scope.showDeleteConfirm = function (taskID) {
+            var confirmPopup = $ionicPopup.confirm({
+                title: '<b>Delete Confirm</b>',
+                template: 'Are you sure you want to delete this?'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $scope.deleteTask(taskID);
+                } else {
+                    //TODO do something, hide the shown delete button
+                }
+            });
+        };
+
+        //delete a task
+        $scope.deleteTask = function (taskID) {
+            //for now, taskID is just the position of the task in the tasks array,
+            // perhaps $index can do the trick
+            console.log(taskID);
+            TaskService.remove(taskID);
         };
 
     })

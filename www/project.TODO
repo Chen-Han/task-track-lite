@@ -4,6 +4,15 @@ javascript time
 cancel button
 time type from/to
 
+logic
+*delete certain task
+
+UI change
+*change UI so that from-type, for-type time appear altogether
+*consider group repeat, or card repeat to include the timer
+
 timer
 *start count down with a add 2min button
 *start a count up that can be stopped and restarted
+
+Sort by date
