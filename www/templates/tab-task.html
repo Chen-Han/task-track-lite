@@ -1,9 +1,53 @@
 <ion-view view-title="Tasks">
     <ion-content>
         <ion-list>
+            <ion-item class="card item" ng-repeat="task in tasks track by $index">
+                <div class="row time-summary">
+                    <input class="task task-name" ng-model="task.name" type="text" placeholder="edit task name"
+                           stop-event ng-click="$event.stopPropagation();"/>
+                    <input class="task task-from"
+                           ng-model="task.from"
+                           type="datetime"
+                           placeholder="edit time" ng-focus="task.from=setToNow(task.from);"/>
+                    <span>&nbsp TO &nbsp</span>
+                    <input class="task task-to"
+                           ng-model="task.to"
+                           type="datetime"
+                           placeholder="edit time" ng-focus="task.to=setToNow(task.to);"/>
+                    <input class="task task-for-duration"
+                           ng-model="task.duration"
+                           type="number"
+                           placeholder="edit time"
+                            />
+                    <span>mins</span>
+                </div>
+                <div class="row count-up">
+                    <button class="button button-icon ion-pause"></button>
+                    <button class="button button-icon ion-refresh"></button>
+                    <div class="timer-container">
+                        <span>00:05:07</span>
+                    </div>
+                </div>
+                <div class="row count-down">
+                    <div class="range col-50">
+                        <i class="icon ion-minus-round"></i>
+                        <input type="range" name="volume"/>
+                        <i class="icon ion-plus-round"></i>
+                    </div>
+                    <div class="timer-container">
+                        <i class="icon ion-clock"></i>
+                        <i class="icon ion-arrow-up-b"></i>
+                        <i class="icon ion-arrow-down-b"></i>
+                        <span>00:30:30</span>
+
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+        <!--Previous list-style task view-->
+        <!--ion-list>
             <ion-item class="item" ng-repeat="task in tasks track by $index" ng-click="showEdit()">
                 <h3>
-                    <!--Math.round(task.duration/60)-->
                     <input class="task task-name" ng-model="task.name" type="text" placeholder="edit task name" stop-event ng-click="$event.stopPropagation();"/>
                     <select ng-model="timeType" ng-click="$event.stopPropagation();">
                         <option ng-selected>for</option>
@@ -34,6 +78,8 @@
 
         </ion-list>
         <div ng-show="isNewShown" class="list">
+
+
             <label class="item item-input">
                 I did ...
                 <input type="text" ng-model="newTask.name" placeholder="task name">
@@ -67,10 +113,10 @@
                        ng-focus="newTask.to=setToNow(newTask.to);"
                        ng-click="$event.stopPropagation();"/>
             </div>
-        </div>
+        </div-->
         <button class="button button-positive"
-                ng-click="isNewShown?createNewTask(newTask):showNewTask()" >
-            {{isNewShown?'Done':'New'}}
+                ng-click="isNewShown?createNewTask(newTask):showNewTask()">
+        {{isNewShown?'Done':'New'}}
         </button>
         <button class="button button-calm" ng-show="isNewShown" ng-click="hideNewTask()">Cancel</button>
 

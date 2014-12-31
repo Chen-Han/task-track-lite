@@ -23,3 +23,9 @@ input.task:focus{
     border:1px solid blue;
     background-color:lightgrey;
 }
+
+/*=======Task Card Style===*/
+.timer-container {
+    margin: auto 0;
+    margin-left: auto;
+}

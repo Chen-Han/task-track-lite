@@ -5,14 +5,20 @@ cancel button
 time type from/to
 
 logic
-*delete certain task
+  /
+\/delete certain task
 
 UI change
 *change UI so that from-type, for-type time appear altogether
+    *Flex grid ionic,
+    *how to center? horizontally and vertically
+    
 *consider group repeat, or card repeat to include the timer
+*learn SASS, change tabs-top to bottom
 
 timer
 *start count down with a add 2min button
 *start a count up that can be stopped and restarted
 
 Sort by date
+http://forum.ionicframework.com/t/generating-list-with-dividers-dynamically/341/5
