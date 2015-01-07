@@ -12,7 +12,7 @@ UI change
 *change UI so that from-type, for-type time appear altogether
     *Flex grid ionic,
     *how to center? horizontally and vertically
-    
+
 *consider group repeat, or card repeat to include the timer
 *learn SASS, change tabs-top to bottom
 
@@ -20,5 +20,33 @@ timer
 *start count down with a add 2min button
 *start a count up that can be stopped and restarted
 
+long press to reorder
+http://www.scottlogic.com/blog/2014/11/25/ionic-sorter.html
+
 Sort by date
 http://forum.ionicframework.com/t/generating-list-with-dividers-dynamically/341/5
+NEXT:
+    alarm https://github.com/katzer/cordova-plugin-local-notifications
+
+ISSUE
+    Collection-repeat would not work well when device is rotated since item height is absolutely rendered
+        -consider using a different height when device is rotated, maybe get the screen size then decide
+    timer in each task is independent
+        *VAR: isPaused, timeSpent, timeRemaining, isOnBreak, breakTimeRemaining, timeAllowed (anticipated finishing time, set by range)
+        *FUNCTION():
+            startTask():
+                start counting down
+                finish any break
+                if there are already data in the task, the task will resume
+
+            pauseTask()
+                pause both count up and count down
+                the task.for will be updated and task.to will be recorded as well
+            resetTask() resets all time to zero
+            addTime() add extra time to timeRemaining
+            reduceTime reduce time from timeRemaining
+            takeBreak() pause the task, set breakTimeRemaining to 05:00  start breakTime
+
+        -have nested controller for ng-repeat, but might slow down the performance
+            -simpler in concept
+            -

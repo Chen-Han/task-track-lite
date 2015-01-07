@@ -118,10 +118,10 @@ angular.module('starter.services', [])
             tasks = JSON.parse(permanentStorage.getItem("tasks"));
         } else {
             tasks = [
-                { id: 0, type: 0, name: 'Buy milk in grocery store',duration:10 },
-                { id: 1, type: 0, name: 'Do MATH135 assignment',duration:60},
-                { id: 2, type: 1, name: 'Math137 reading',duration:20},
-                { id: 3, type: 2, name: 'Ping pong with Kevin',duration:30}
+                { id: 0, type: 0, name: 'Buy milk in grocery store', duration: 10, from: "", to: "" },
+                { id: 1, type: 0, name: 'Do MATH135 assignment', duration: 60, from: "", to: ""},
+                { id: 2, type: 1, name: 'Math137 reading', duration: 20, from: "", to: ""},
+                { id: 3, type: 2, name: 'Ping pong with Kevin', duration: 30, from: "", to: ""}
             ];
             saveData();
         }
@@ -133,12 +133,12 @@ angular.module('starter.services', [])
                 // Simple index lookup
                 return tasks[taskId];
             },
-            transfer:function(taskId,type){
-                tasks[taskId].type=type;
+            transfer: function (taskId, type) {
+                tasks[taskId].type = type;
                 saveData();
                 return tasks;
             },
-            add:function (task){
+            add: function (task) {
                 tasks.push(task);
                 saveData();
                 return tasks;

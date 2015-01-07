@@ -4,24 +4,30 @@
 input.task{
     display:inline-block;
     background-color:transparent;
+    text-overflow: clip;
     border:0;
     border-radius:3px;
 }
 input.task.task-name{
-    max-width: 30%;
+    /*max-width: 30%;*/
 }
+
+input.task.task-for-duration, .task-from, .task-to {
+    text-align: center;
+}
+
 input.task.task-for-duration{
-    max-width:50px;
+    /*max-width:50px;*/
 }
 input.task.task-from{
-    max-width:15%;
+
 }
 input.task.task-to{
-    max-width:15%;
+
 }
 input.task:focus{
     border:1px solid blue;
-    background-color:lightgrey;
+    background-color: #c1c1c1;
 }
 
 /*=======Task Card Style===*/
@@ -29,3 +35,16 @@ input.task:focus{
     margin: auto 0;
     margin-left: auto;
 }
+
+.card.item.task-card {
+    padding: 1px;
+}
+
+.item-divider {
+    background-color: lightgrey;
+}
+
+.row > i {
+    margin: auto 0;
+}
+
