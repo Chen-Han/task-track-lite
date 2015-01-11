@@ -21,24 +21,13 @@ angular.module('starter.controllers', ['timer'])
     .controller('FriendDetailCtrl', function ($scope, $stateParams, Friends) {
         $scope.friend = Friends.get($stateParams.friendId);
     })
-    .controller('TasksCtrl', function ($scope, $stateParams, TaskService, $ionicPopup, $ionicPlatform) {
-        $ionicPlatform.ready(function () {
-            var now = new Date().getTime(),
-                _60_seconds_from_now = new Date(now + 60 * 1000);
-            window.plugin.notification.local.add({
-                id: 1,
-                title: 'Reminder',
-                message: 'Dont forget to buy some flowers.',
-                repeat: 'weekly',
-                date: _60_seconds_from_now
-            });
-        });
+    .controller('TasksCtrl', function ($scope, $stateParams, TaskService, $ionicPopup) {
+
         //initialize tasks from service
         function initializeTasks() {
             $scope.tasks = TaskService.all();
             $scope.newTask = {id: $scope.tasks.length, name: "", type: 0, duration: 0, from: "", to: ""};
         }
-
         initializeTasks();
 
         //the newTask is reinitialized
@@ -57,8 +46,8 @@ angular.module('starter.controllers', ['timer'])
             $scope.isNewShown=false;
         };
         $scope.createNewTask=function(newTask){
-            console.log("create New Task");
-            console.log(newTask);
+            //console.log("create New Task");
+            //console.log(newTask);
             TaskService.add(newTask);
             clearNewTask();
         };
@@ -70,7 +59,7 @@ angular.module('starter.controllers', ['timer'])
             TaskService.remove(taskID);
         };
         $scope.setToNow=function(time){
-            console.log('setToNow called'+ "time is " + time);
+            //console.log('setToNow called'+ "time is " + time);
             if(time===0 || time=="" || typeof time==="undefined") {
                 return moment().format('HH:mm');
             }else {
@@ -79,9 +68,11 @@ angular.module('starter.controllers', ['timer'])
         };
         //@param time1 and time2 are both strings
         $scope.timeDiff=function(time1,time2){
-            var a =moment(time1);
-            var b =moment(time2);
-            b.diff(a,'minutes');
+            var t1 = moment(time1, "mm:ss");
+            //console.log(t1.format());
+            var t2 = moment(time2, "mm:ss");
+            //console.log(t2.format());
+            return t2.diff(t1, 'minutes');
         };
 
         //delete task confirm
@@ -101,16 +92,17 @@ angular.module('starter.controllers', ['timer'])
 
 
     })
-    .controller('taskCtrl', function ($scope, TaskService) {
-        var defaultTimeRemaining = "00:20:00";
-        var defaultBreakTime = "00:05:00";
-
+    .controller('taskCtrl', function ($scope, TaskService, $cordovaLocalNotification) {
+        var defaultCountDown = 1200;
+        var defaultBreakTime = 300;
         function initializeTimer() {
             $scope.isPaused = true;
-            $scope.timeRemaining = defaultTimeRemaining;
-            $scope.breakTimeRemaining = "00:00:00";
+            //$scope.$broadcast('timer-set-countdown',defaultCountDown);
+            $scope.$broadcast('timer-set-countdown-seconds', defaultCountDown);
+            $scope.$broadcast('timer-stop');
         }
 
+        initializeTimer();
         $scope.startTask = function () {
             //resets any break
             $scope.breakTimeRemaining = "00:00:00";
@@ -120,25 +112,48 @@ angular.module('starter.controllers', ['timer'])
                 //resets the to and duration
                 $scope.task.to = "";
                 $scope.task.duration = "";
-                //start timer
+                $scope.$broadcast('timer-resume');
             } else {
                 //set the time start to now
                 $scope.task.from = $scope.setToNow($scope.task.from);
                 //start timer
+                $scope.$broadcast('timer-start');
             }
         };
         $scope.pause = function () {
             $scope.task.to = $scope.setToNow($scope.task.to);
+
+            //console.log($scope.task.duration);
             $scope.task.duration = $scope.timeDiff($scope.task.from, $scope.task.to);
-            //pause the timer
+            //console.log($scope.task.duration);
+            $scope.$broadcast('timer-stop');
             $scope.isPaused = true;
         };
+        $scope.addTime = function () {
+            $scope.$broadcast('timer-add-cd-seconds', defaultBreakTime);
+        };
+        $scope.reduceTime = function () {
+            $scope.$broadcast('timer-add-cd-seconds', -1 * defaultBreakTime);
+        };
         $scope.takeBreak = function () {
-            $scope.isPaused = true;
+            $scope.pause();
             //start break timer, if already started, add another 5min to it
         };
         $scope.resetTime = function () {
-            initializeTimer();
+            $scope.pause();
+            $scope.$broadcast('timer-reset');
+
+        };
+        //the callback when a countdown finishes
+        $scope.timerFinished = function () {
+            $cordovaLocalNotification.add({
+                id: $scope.task.id,
+                title: $scope.task.name,
+                message: 'Time is up.',
+                repeat: 'minutely',
+                date: new Date(),
+                autoCancel: true
+            });
         };
     })
     .controller("MoralBankCtrl",function($scope){

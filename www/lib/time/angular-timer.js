@@ -5,6 +5,10 @@
  * Copyright (c) 2014 Siddique Hameed
  * Licensed MIT <https://github.com/siddii/angular-timer/blob/master/LICENSE.txt>
  */
+/*
+ * Change log by Han
+ * in the function add
+ * */
 var timerModule = angular.module("timer", []).directive("timer", ["$compile", function (a) {
     return{restrict: "EA", replace: !1, scope: {interval: "=interval", startTimeAttr: "=startTime", endTimeAttr: "=endTime", countdownattr: "=countdown", finishCallback: "&finishCallback", autoStart: "&autoStart", maxTimeUnit: "="}, controller: ["$scope", "$element", "$attrs", "$timeout", function (b, c, d, e) {
         function f() {
@@ -55,7 +59,12 @@ var timerModule = angular.module("timer", []).directive("timer", ["$compile", fu
         }, c.bind("$destroy", function () {
             f(), b.isRunning = !1
         }), b.countdownattr ? (b.millis = 1e3 * b.countdownattr, b.addCDSeconds = c[0].addCDSeconds = function (a) {
-            b.countdown += a, b.$digest(), b.isRunning || b.start()
+            b.countdown += a;
+            b.millis += a * 1000;//added by Han
+            b.$digest();
+            if (!b.isRunning) {
+                g();//this is normally b.start(), but Han changed to calculateTime(), please refer to the non-minified version
+            }
         }, b.$on("timer-add-cd-seconds", function (a, c) {
             e(function () {
                 b.addCDSeconds(c)

@@ -2,7 +2,9 @@
     <ion-content>
         <ion-list>
             <ion-item class="card item task-card"
-                      ng-repeat="task in tasks track by $index">
+                      collection-repeat="task in tasks"
+                      collection-item-width="'100%'"
+                      collection-item-height="160">
                 <div ng-controller="taskCtrl">
                     <div class="row item-divider">
                         <div class="col col-center">
@@ -35,21 +37,29 @@
                         <div class="col-10 col-center">mins</div>
                     </div>
                     <div class="row">
-                        <i class="button button-icon ion-pause" ng-click="startTask(task)"></i>
-                        <i class="button button-icon ion-refresh"></i>
+                        <i class="button button-icon" ng-click="isPaused?startTask():pause()"
+                           ng-class="{'ion-pause':!isPaused,'ion-play':isPaused}"></i>
+                        <!--reset button-->
+                        <i class="button button-icon ion-refresh" ng-click="resetTime()"></i>
+                        <i class="button button-clear">zzz</i>
 
                         <div class="timer-container col-50 col-center">
                             <div class="row">
                                 <div class="col-20 col-center">
                                     <div class="row">
-                                        <i class="button-icon ion-arrow-up-b"></i>
+                                        <i class="button-icon ion-arrow-up-b" ng-click="addTime()"></i>
                                     </div>
                                     <div class="row">
-                                        <i class="button-icon ion-arrow-down-b"></i>
+                                        <i class="button-icon ion-arrow-down-b" ng-click="reduceTime()"></i>
                                     </div>
                                 </div>
                                 <div class="col-80 col-center">
-                                    <timer countDown="600" interval="1000">{{hours}}:{{minutes}}:{{seconds}}</timer>
+                                    <!--including autostart attribute only stops autostart, even it is set to true-->
+                                    <timer autoStart="false"
+                                           countdown="1200"
+                                           interval="1000"
+                                           finish-callback="timerFinished()">{{hours}}:{{minutes}}:{{seconds}}
+                                    </timer>
                                 </div>
                             </div>
                         </div>
